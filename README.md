@@ -184,45 +184,6 @@ The application uses PostgreSQL with the following default configuration:
 - Secure database connections
 - Environment variable configuration
 
-## 🚀 Deployment
-
-### Production Setup
-1. Set up a production PostgreSQL database
-2. Configure environment variables for production
-3. Use a production WSGI server (e.g., Gunicorn)
-4. Set up reverse proxy (e.g., Nginx)
-5. Configure SSL certificates
-
-### Docker Deployment (Optional)
-```dockerfile
-FROM python:3.9-slim
-WORKDIR /app
-COPY requirements.txt .
-RUN pip install -r requirements.txt
-COPY . .
-EXPOSE 5000
-CMD ["python", "app.py"]
-```
-
-## 🤝 Contributing
-
-1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'Add amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing-feature`)
-5. Open a Pull Request
-
-## 📝 License
-
-This project is licensed under the MIT License - see the LICENSE file for details.
-
-## 🆘 Support
-
-For support and questions:
-- Create an issue in the repository
-- Check the documentation
-- Review the code comments
-
 ## 🔄 Version History
 
 - **v1.0.0**: Initial release with basic portfolio management
@@ -232,8 +193,8 @@ For support and questions:
 
 ## 📞 Contact
 
-- Project Link: [https://github.com/yourusername/flaskProject4](https://github.com/yourusername/flaskProject4)
-- Email: your.email@example.com
+- Project Link: (https://github.com/pra-nali1812/flaskProject4)
+- Email:bhusalpranali2016@gmail.com
 
 ---
 
