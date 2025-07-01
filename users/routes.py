@@ -5,6 +5,7 @@ from users.models import User
 from users.utils import login_current_user, logout_current_user
 from flask_login import login_required, current_user
 from portfolio.models import StockHolding, CryptoHolding, MutualFundHolding
+from users.forms import RegistrationForm
 
 users_bp = Blueprint('users', __name__)
 
