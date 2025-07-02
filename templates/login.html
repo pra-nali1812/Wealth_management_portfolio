@@ -74,24 +74,49 @@
         a:hover {
             text-decoration: underline;
         }
+
+        .error {
+            color: #b30000;
+            font-size: 0.95em;
+            margin-bottom: 0.5em;
+        }
+
+        .flash {
+            margin-bottom: 1em;
+            padding: 0.75em;
+            border-radius: 5px;
+            background: #ffe6e6;
+            color: #b30000;
+            text-align: center;
+        }
     </style>
 </head>
 <body>
     <div class="login-container">
         <h1>Login</h1>
-        <form action="{{ url_for('users.login') }}" method="POST">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+          {% if messages %}
+            {% for category, message in messages %}
+              <div class="flash">{{ message }}</div>
+            {% endfor %}
+          {% endif %}
+        {% endwith %}
+        <form method="POST" action="{{ url_for('users.login') }}">
+            {{ form.hidden_tag() }}
             <label for="username">Username:</label>
-            <input name="username" id="username" required />
-
-            <label for="email">Email:</label>
-            <input type="email" id="email" name="email" required>
+            {{ form.username(class_='form-control', id='username') }}
+            {% for error in form.username.errors %}
+                <div class="error">{{ error }}</div>
+            {% endfor %}
 
             <label for="password">Password:</label>
-            <input type="password" id="password" name="password" required>
+            {{ form.password(class_='form-control', id='password') }}
+            {% for error in form.password.errors %}
+                <div class="error">{{ error }}</div>
+            {% endfor %}
 
-            <button type="submit">Login</button>
+            {{ form.submit(class_='btn btn-primary') }}
         </form>
-
         <p>Don't have an account? <a href="{{ url_for('users.register') }}">Register here</a></p>
     </div>
 </body>

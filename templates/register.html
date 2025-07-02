@@ -89,6 +89,13 @@
             color: #b30000;
             text-align: center;
         }
+
+        .flash-success {
+            color: green;
+        }
+        .flash-error {
+            color: #b30000;
+        }
     </style>
 </head>
 <body>
@@ -97,21 +104,38 @@
         {% with messages = get_flashed_messages(with_categories=true) %}
           {% if messages %}
             {% for category, message in messages %}
-              <div class="flash">{{ message }}</div>
+              <div class="flash {% if category == 'success' or category == 'message' %}flash-success{% else %}flash-error{% endif %}">{{ message }}</div>
             {% endfor %}
           {% endif %}
         {% endwith %}
-        <form action="{{ url_for('users.register') }}" method="POST">
+        <form method="POST" action="{{ url_for('users.register') }}">
+            {{ form.hidden_tag() }}
             <label for="username">Username:</label>
-            <input type="text" id="username" name="username" required>
+            {{ form.username(class_='form-control', id='username') }}
+            {% for error in form.username.errors %}
+                <div class="error">{{ error }}</div>
+            {% endfor %}
 
             <label for="email">Email:</label>
-            <input type="email" id="email" name="email" required>
+            {{ form.email(class_='form-control', id='email') }}
+            {% for error in form.email.errors %}
+                <div class="error">{{ error }}</div>
+            {% endfor %}
 
             <label for="password">Password:</label>
-            <input type="password" id="password" name="password" required>
+            {{ form.password(class_='form-control', id='password') }}
+            <div class="error">Password must be at least 8 characters.</div>
+            {% for error in form.password.errors %}
+                <div class="error">{{ error }}</div>
+            {% endfor %}
 
-            <button type="submit">Register</button>
+            <label for="confirm_password">Confirm Password:</label>
+            {{ form.confirm_password(class_='form-control', id='confirm_password') }}
+            {% for error in form.confirm_password.errors %}
+                <div class="error">{{ error }}</div>
+            {% endfor %}
+
+            {{ form.submit(class_='btn btn-primary') }}
         </form>
         <p>Already have an account? <a href="{{ url_for('users.login') }}">Login here</a></p>
     </div>

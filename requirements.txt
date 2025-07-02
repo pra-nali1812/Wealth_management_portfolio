@@ -71,6 +71,7 @@ URLObject==2.4.3
 websockets==15.0.1
 Werkzeug==2.3.8
 yfinance==0.2.63
+email_validator
 
 # Add this script to check requirements before running the app
 # Save as check_requirements.py
