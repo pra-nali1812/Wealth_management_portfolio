@@ -1,5 +1,5 @@
 from dotenv import load_dotenv
-from flask import Flask
+from flask import Flask, render_template
 from config import Config
 from extensions import db, login_manager,migrate
 from users.routes import users_bp
@@ -28,6 +28,9 @@ app.register_blueprint(overview_bp)
 app.register_blueprint(strategies_bp, url_prefix="/strategies")
 app.register_blueprint(performance_bp, url_prefix='/performance')
 
+@app.route('/')
+def home():
+    return render_template('home.html')
 
 if __name__ == '__main__':
     app.run(debug=True)
