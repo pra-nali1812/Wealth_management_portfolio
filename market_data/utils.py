@@ -14,6 +14,7 @@ def get_stock_price(symbol):
     }
     response = requests.get(BASE_URL, params=params)
     data = response.json()
+    print("Alpha Vantage response:", data)  # Debug print
     return data.get("Global Quote", {})
 
 def get_crypto_price(symbol="BTC", market="USD"):
