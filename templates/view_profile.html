@@ -1,53 +1,204 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>View Profile</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            padding: 30px;
-            max-width: 600px;
-            margin: auto;
-        }
-        h1 {
-            text-align: center;
-        }
-        .profile-box {
-            border: 1px solid #ccc;
-            padding: 20px;
-            border-radius: 8px;
-            background-color: #f9f9f9;
-        }
-        .profile-item {
-            margin-bottom: 10px;
-        }
-        .profile-label {
-            font-weight: bold;
-        }
-        .edit-button {
-            display: inline-block;
-            margin-top: 20px;
-            padding: 10px 16px;
-            background-color: #007bff;
-            color: white;
-            text-decoration: none;
-            border-radius: 5px;
-        }
-        .edit-button:hover {
-            background-color: #0056b3;
-        }
-    </style>
-</head>
-<body>
-    <h1>Your Profile</h1>
-    <div class="profile-box">
-        <div class="profile-item"><span class="profile-label">Username:</span> {{ user.username }}</div>
-        <div class="profile-item"><span class="profile-label">Email:</span> {{ user.email }}</div>
-        <div class="profile-item"><span class="profile-label">Risk Tolerance:</span> {{ user.risk_tolerance or 'Not Set' }}</div>
-        <div class="profile-item"><span class="profile-label">Investment Goal:</span> {{ user.investment_goal or 'Not Set' }}</div>
-
-        <a href="{{ url_for('users.profile') }}" class="edit-button">Edit Profile</a>
+{% extends "base.html" %}
+{% block title %}View Profile{% endblock %}
+{% block content %}
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+    body {
+        background: linear-gradient(120deg, #e0e7ff 0%, #f0f4f8 100%);
+        font-family: 'Montserrat', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+    .profile-container {
+        max-width: 1100px;
+        margin: 2.5rem auto 2rem auto;
+        padding: 0 1rem;
+    }
+    .profile-nav {
+        display: flex;
+        gap: 1.2rem;
+        margin-bottom: 2.2rem;
+        justify-content: center;
+        flex-wrap: wrap;
+    }
+    .profile-nav a {
+        background: #fff;
+        color: #004080;
+        font-weight: 600;
+        padding: 0.7rem 1.5rem;
+        border-radius: 8px;
+        text-decoration: none;
+        box-shadow: 0 2px 8px rgba(0,64,128,0.07);
+        transition: background 0.18s, color 0.18s;
+        font-size: 1.08rem;
+        margin-bottom: 0.5rem;
+    }
+    .profile-nav a:hover, .profile-nav a.active {
+        background: linear-gradient(90deg, #004080 60%, #0077b6 100%);
+        color: #fff;
+    }
+    .profile-card {
+        background: #fff;
+        border-radius: 18px;
+        box-shadow: 0 8px 32px rgba(0,64,128,0.10);
+        padding: 2.2rem 2rem 2rem 2rem;
+        margin-bottom: 2.5rem;
+    }
+    .profile-header {
+        font-size: 1.7rem;
+        font-weight: 700;
+        color: #004080;
+        margin-bottom: 1.2rem;
+        letter-spacing: 0.5px;
+        display: flex;
+        align-items: center;
+        gap: 0.7rem;
+    }
+    .profile-header i {
+        color: #0077b6;
+        font-size: 1.5rem;
+    }
+    .section-title {
+        font-size: 1.2rem;
+        font-weight: 600;
+        color: #0077b6;
+        margin-top: 1.5rem;
+        margin-bottom: 0.7rem;
+        letter-spacing: 0.2px;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+    .holdings-table, .performance-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-bottom: 1.5rem;
+    }
+    .holdings-table th, .holdings-table td, .performance-table th, .performance-table td {
+        padding: 0.7rem 0.8rem;
+        border-bottom: 1px solid #e0e7ff;
+        text-align: left;
+        font-size: 1.05rem;
+    }
+    .holdings-table th, .performance-table th {
+        background: #f0f4f8;
+        color: #004080;
+        font-weight: 700;
+    }
+    .holdings-table td, .performance-table td {
+        color: #333;
+    }
+    .recommendations {
+        background: #f8fafc;
+        border-radius: 12px;
+        padding: 1.2rem 1.2rem 1rem 1.2rem;
+        margin-bottom: 1.2rem;
+        box-shadow: 0 2px 8px rgba(0,64,128,0.05);
+    }
+    .recommendations .section-title {
+        margin-top: 0;
+    }
+    .recommendation-item {
+        color: #444;
+        font-size: 1.05rem;
+        margin-bottom: 0.5rem;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+    .recommendation-item i {
+        color: #0077b6;
+        font-size: 1.1rem;
+    }
+    .empty-msg {
+        color: #888;
+        font-size: 1.05rem;
+        margin-bottom: 1rem;
+    }
+    .welcome {
+        font-size: 1.15rem;
+        color: #0077b6;
+        margin-bottom: 1.5rem;
+        font-weight: 600;
+    }
+</style>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+<div class="profile-container">
+    <div class="profile-nav">
+        <a href="{{ url_for('users.view_profile') }}" class="active"><i class="bi bi-person-circle"></i> View Profile</a>
+        <a href="{{ url_for('overview.overview') }}"><i class="bi bi-pie-chart"></i> Overview</a>
+        <a href="{{ url_for('portfolio.add_asset') }}"><i class="bi bi-plus-circle"></i> Add Asset</a>
+        <a href="{{ url_for('portfolio.view_portfolio') }}"><i class="bi bi-briefcase"></i> Portfolio</a>
+        <a href="{{ url_for('performance.view_performance') }}"><i class="bi bi-graph-up-arrow"></i> Performance</a>
+        <a href="{{ url_for('users.logout') }}"><i class="bi bi-box-arrow-right"></i> Logout</a>
     </div>
-</body>
-</html>
+    <div class="profile-card">
+        <div class="profile-header"><i class="bi bi-person-circle"></i> Welcome, {{ user.username }}!</div>
+        <div class="section-title"><i class="bi bi-clipboard-data"></i> Portfolio Holdings</div>
+        <div class="row">
+            <div class="col-md-4">
+                <div class="section-title"><i class="bi bi-currency-dollar"></i> Stocks</div>
+                {% if user.stocks %}
+                <table class="holdings-table">
+                    <thead><tr><th>Symbol</th><th>Qty</th><th>Price</th></tr></thead>
+                    <tbody>
+                    {% for s in user.stocks %}
+                        <tr><td>{{ s.stock_symbol }}</td><td>{{ s.quantity }}</td><td>{{ s.purchase_price }}</td></tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+                {% else %}<div class="empty-msg">No stocks.</div>{% endif %}
+            </div>
+            <div class="col-md-4">
+                <div class="section-title"><i class="bi bi-currency-bitcoin"></i> Cryptos</div>
+                {% if user.cryptos %}
+                <table class="holdings-table">
+                    <thead><tr><th>Symbol</th><th>Qty</th><th>Price</th></tr></thead>
+                    <tbody>
+                    {% for c in user.cryptos %}
+                        <tr><td>{{ c.crypto_symbol }}</td><td>{{ c.quantity }}</td><td>{{ c.purchase_price }}</td></tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+                {% else %}<div class="empty-msg">No cryptos.</div>{% endif %}
+            </div>
+            <div class="col-md-4">
+                <div class="section-title"><i class="bi bi-bank"></i> Mutual Funds</div>
+                {% if user.funds %}
+                <table class="holdings-table">
+                    <thead><tr><th>Symbol</th><th>Qty</th><th>Price</th></tr></thead>
+                    <tbody>
+                    {% for f in user.funds %}
+                        <tr><td>{{ f.fund_symbol }}</td><td>{{ f.quantity }}</td><td>{{ f.purchase_price }}</td></tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+                {% else %}<div class="empty-msg">No mutual funds.</div>{% endif %}
+            </div>
+        </div>
+        <div class="section-title"><i class="bi bi-bar-chart-line"></i> Portfolio Performance (ROI)</div>
+        <div style="display: flex; justify-content: center;">
+            <div style="background: #f8fafc; border-radius: 14px; box-shadow: 0 2px 8px rgba(0,64,128,0.07); padding: 1.2rem 1.2rem 1rem 1.2rem; max-width: 350px; width: 100%; margin-bottom: 1.5rem;">
+                {% if performance_data %}
+                <table class="performance-table" style="margin-bottom: 0;">
+                    <thead><tr><th>Asset</th><th>ROI (%)</th></tr></thead>
+                    <tbody>
+                    {% for item in performance_data %}
+                        <tr><td>{{ item.symbol }}</td><td>{{ item.roi|round(2) }}</td></tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+                {% else %}<div class="empty-msg">No performance data available.</div>{% endif %}
+            </div>
+        </div>
+        <div class="recommendations">
+            <div class="section-title"><i class="bi bi-lightbulb"></i> Investment Recommendations</div>
+            {% if suggestions %}
+                {% for suggestion in suggestions %}
+                    <div class="recommendation-item"><i class="bi bi-lightbulb"></i> {{ suggestion }}</div>
+                {% endfor %}
+            {% else %}
+                <div class="empty-msg">No recommendations available.</div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}

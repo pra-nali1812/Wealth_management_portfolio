@@ -4,9 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Wealth Management Home</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
     <style>
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Montserrat', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background: linear-gradient(120deg, #e0e7ff 0%, #f0f4f8 100%);
             margin: 0;
             padding: 0;
@@ -15,15 +19,16 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            background-color: #004080;
+            background: linear-gradient(90deg, #004080 60%, #0077b6 100%);
             padding: 1rem 2rem;
             box-shadow: 0 2px 8px rgba(0,0,0,0.05);
         }
         .navbar .logo {
             color: #fff;
-            font-size: 1.7rem;
-            font-weight: bold;
+            font-size: 2rem;
+            font-weight: 700;
             letter-spacing: 1px;
+            font-family: 'Montserrat', sans-serif;
         }
         .navbar .nav-links {
             display: flex;
@@ -36,56 +41,151 @@
             padding: 0.5rem 1.2rem;
             border-radius: 5px;
             transition: background 0.2s;
+            font-weight: 600;
         }
         .navbar .nav-links a:hover {
             background: #0066cc;
         }
-        .hero {
-            max-width: 700px;
-            margin: 5rem auto 0 auto;
-            background: #fff;
-            border-radius: 16px;
-            box-shadow: 0 6px 24px rgba(0,0,0,0.08);
-            padding: 3rem 2.5rem;
+        .hero-section {
+            background: linear-gradient(120deg, #4f8cff 0%, #a6e1fa 100%);
+            padding: 4.5rem 0 3.5rem 0;
             text-align: center;
+            position: relative;
+            overflow: hidden;
         }
-        .hero h1 {
-            color: #004080;
-            font-size: 2.5rem;
-            margin-bottom: 1rem;
+        .hero-section h1 {
+            color: #fff;
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 1.2rem;
+            letter-spacing: 1px;
+            text-shadow: 0 2px 16px rgba(0,0,0,0.08);
         }
-        .hero p {
-            color: #333;
-            font-size: 1.2rem;
+        .hero-section p {
+            color: #eaf6ff;
+            font-size: 1.35rem;
             margin-bottom: 2.5rem;
+            font-weight: 500;
         }
-        .hero .cta-buttons {
+        .hero-cta {
             display: flex;
             justify-content: center;
             gap: 2rem;
+            margin-bottom: 1.5rem;
         }
-        .hero .cta-buttons a {
-            background: #004080;
+        .hero-cta a {
+            background: linear-gradient(90deg, #004080 60%, #0077b6 100%);
             color: #fff;
-            padding: 0.9rem 2.2rem;
-            border-radius: 8px;
-            font-size: 1.1rem;
-            font-weight: 500;
+            padding: 1rem 2.5rem;
+            border-radius: 32px;
+            font-size: 1.2rem;
+            font-weight: 700;
             text-decoration: none;
+            box-shadow: 0 4px 24px rgba(0,64,128,0.13);
             transition: background 0.2s, transform 0.2s;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+            letter-spacing: 0.5px;
+            border: none;
+            outline: none;
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
         }
-        .hero .cta-buttons a:hover {
-            background: #0066cc;
-            transform: translateY(-2px) scale(1.04);
+        .hero-cta a:hover {
+            background: linear-gradient(90deg, #0077b6 60%, #004080 100%);
+            transform: translateY(-3px) scale(1.04);
+        }
+        .hero-illustration {
+            margin-top: 2.5rem;
+            display: flex;
+            justify-content: center;
+        }
+        .hero-illustration img {
+            max-width: 420px;
+            width: 100%;
+            border-radius: 18px;
+            box-shadow: 0 8px 32px rgba(0,64,128,0.10);
+            animation: float 3.5s ease-in-out infinite;
+        }
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-18px); }
+        }
+        .features-section {
+            max-width: 1200px;
+            margin: 0 auto 3rem auto;
+            padding: 0 1rem;
+        }
+        .features-title {
+            text-align: center;
+            color: #004080;
+            font-size: 2.2rem;
+            font-weight: 700;
+            margin: 3.5rem 0 2.5rem 0;
+            letter-spacing: 0.5px;
+        }
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
+            gap: 2.2rem;
+        }
+        .feature-card {
+            background: #fff;
+            border-radius: 18px;
+            box-shadow: 0 4px 18px rgba(0,0,0,0.07);
+            padding: 2.2rem 1.5rem 1.5rem 1.5rem;
+            text-align: center;
+            transition: transform 0.18s, box-shadow 0.18s;
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
+            border: 2px solid transparent;
+        }
+        .feature-card:hover {
+            transform: translateY(-8px) scale(1.04);
+            box-shadow: 0 12px 36px rgba(0,64,128,0.13);
+            border: 2px solid #4f8cff;
+        }
+        .feature-icon {
+            font-size: 2.7rem;
+            color: #0077b6;
+            margin-bottom: 1.1rem;
+            display: inline-block;
+            transition: color 0.2s;
+        }
+        .feature-card:hover .feature-icon {
+            color: #004080;
+        }
+        .feature-title {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: #004080;
+            margin-bottom: 0.7rem;
+        }
+        .feature-desc {
+            color: #444;
+            font-size: 1.08rem;
+            margin-bottom: 1.2rem;
+        }
+        .feature-link {
+            color: #0077b6;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1.08rem;
+            transition: color 0.18s;
+        }
+        .feature-link:hover {
+            color: #004080;
+            text-decoration: underline;
         }
         @media (max-width: 600px) {
-            .hero {
-                padding: 2rem 1rem;
+            .hero-section h1 {
+                font-size: 2rem;
             }
-            .navbar {
-                flex-direction: column;
-                gap: 0.7rem;
+            .features-title {
+                font-size: 1.3rem;
+            }
+            .features-grid {
+                grid-template-columns: 1fr;
             }
         }
     </style>
@@ -98,12 +198,62 @@
             <a href="{{ url_for('users.register') }}">Register</a>
         </div>
     </nav>
-    <div class="hero">
+    <section class="hero-section">
         <h1>Welcome to WealthManager</h1>
-        <p>Your all-in-one platform for managing investments, tracking performance, and optimizing your portfolio with AI-powered insights. Start your journey to financial freedom today!</p>
-        <div class="cta-buttons">
+        <p>Your all-in-one platform for managing investments, tracking performance, and optimizing your portfolio with AI-powered insights.<br>Start your journey to financial freedom today!</p>
+        <div class="hero-cta">
             <a href="{{ url_for('users.login') }}">Login</a>
             <a href="{{ url_for('users.register') }}">Register</a>
+        </div>
+        <div class="hero-illustration">
+            <img src="https://assets-global.website-files.com/5e9aa66fd3886c1ecf5b5c2b/5f6b7e2e7b2e2e2e2e2e2e2e_wealth-management-illustration.svg" alt="Wealth Management Illustration">
+        </div>
+    </section>
+    <div class="features-section">
+        <div class="features-title">Everything you need for smarter investing</div>
+        <div class="features-grid">
+            <div class="feature-card" onclick="location.href='{{ url_for('portfolio.view_portfolio') }}'">
+                <div class="feature-icon"><i class="bi bi-bar-chart-line"></i></div>
+                <div class="feature-title">Track Everything</div>
+                <div class="feature-desc">Monitor stocks, crypto, and funds in one place with real-time data.</div>
+                <span class="feature-link">Go to Portfolio &rarr;</span>
+            </div>
+            <div class="feature-card" onclick="location.href='{{ url_for('strategies.view_recommendation') }}'">
+                <div class="feature-icon"><i class="bi bi-stars"></i></div>
+                <div class="feature-title">AI Recommendations</div>
+                <div class="feature-desc">Get personalized, AI-driven investment suggestions tailored to your goals.</div>
+                <span class="feature-link">See AI Suggestions &rarr;</span>
+            </div>
+            <div class="feature-card" onclick="location.href='{{ url_for('performance.view_performance') }}'">
+                <div class="feature-icon"><i class="bi bi-graph-up-arrow"></i></div>
+                <div class="feature-title">Visualize Growth</div>
+                <div class="feature-desc">See your progress with beautiful charts and performance analytics.</div>
+                <span class="feature-link">View Performance &rarr;</span>
+            </div>
+            <div class="feature-card" onclick="location.href='{{ url_for('overview.overview') }}'">
+                <div class="feature-icon"><i class="bi bi-pie-chart"></i></div>
+                <div class="feature-title">Overview</div>
+                <div class="feature-desc">See your asset allocation, ROI, and portfolio summary at a glance.</div>
+                <span class="feature-link">Portfolio Overview &rarr;</span>
+            </div>
+            <div class="feature-card" onclick="location.href='{{ url_for('portfolio.add_asset') }}'">
+                <div class="feature-icon"><i class="bi bi-plus-circle"></i></div>
+                <div class="feature-title">Add Asset</div>
+                <div class="feature-desc">Add stocks, crypto, or mutual funds to your portfolio.</div>
+                <span class="feature-link">Add Asset &rarr;</span>
+            </div>
+            <div class="feature-card" onclick="location.href='{{ url_for('performance.view_performance') }}'">
+                <div class="feature-icon"><i class="bi bi-trophy"></i></div>
+                <div class="feature-title">Performance</div>
+                <div class="feature-desc">Analyze your investment performance and returns over time.</div>
+                <span class="feature-link">Analyze Performance &rarr;</span>
+            </div>
+            <div class="feature-card" onclick="location.href='{{ url_for('users.profile') }}'">
+                <div class="feature-icon"><i class="bi bi-person"></i></div>
+                <div class="feature-title">Profile</div>
+                <div class="feature-desc">View and edit your profile, risk tolerance, and investment goals.</div>
+                <span class="feature-link">Edit Profile &rarr;</span>
+            </div>
         </div>
     </div>
 </body>

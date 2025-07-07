@@ -1,123 +1,107 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login</title>
-    <style>
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #f0f2f5;
-            margin: 0;
-            padding: 0;
-        }
-
-        .login-container {
-            max-width: 400px;
-            margin: 5rem auto;
-            padding: 2rem;
-            background-color: #ffffff;
-            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
-            border-radius: 10px;
-        }
-
-        h1 {
-            text-align: center;
-            margin-bottom: 1.5rem;
-            color: #004080;
-        }
-
-        form {
-            display: flex;
-            flex-direction: column;
-        }
-
-        label {
-            margin: 0.5rem 0 0.25rem;
-            font-weight: 500;
-        }
-
-        input {
-            padding: 0.5rem;
-            border: 1px solid #ccc;
-            border-radius: 6px;
-            font-size: 1rem;
-        }
-
-        button {
-            margin-top: 1.5rem;
-            padding: 0.75rem;
-            background-color: #004080;
-            color: white;
-            font-size: 1rem;
-            border: none;
-            border-radius: 6px;
-            cursor: pointer;
-            transition: background-color 0.3s;
-        }
-
-        button:hover {
-            background-color: #0066cc;
-        }
-
-        p {
-            margin-top: 1rem;
-            text-align: center;
-        }
-
-        a {
-            color: #004080;
-            text-decoration: none;
-            font-weight: 500;
-        }
-
-        a:hover {
-            text-decoration: underline;
-        }
-
-        .error {
-            color: #b30000;
-            font-size: 0.95em;
-            margin-bottom: 0.5em;
-        }
-
-        .flash {
-            margin-bottom: 1em;
-            padding: 0.75em;
-            border-radius: 5px;
-            background: #ffe6e6;
-            color: #b30000;
-            text-align: center;
-        }
-    </style>
-</head>
-<body>
-    <div class="login-container">
-        <h1>Login</h1>
-        {% with messages = get_flashed_messages(with_categories=true) %}
-          {% if messages %}
-            {% for category, message in messages %}
-              <div class="flash">{{ message }}</div>
-            {% endfor %}
-          {% endif %}
-        {% endwith %}
-        <form method="POST" action="{{ url_for('users.login') }}">
+{% extends "base.html" %}
+{% block title %}Login{% endblock %}
+{% block content %}
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+    body {
+        background: linear-gradient(120deg, #e0e7ff 0%, #f0f4f8 100%);
+        font-family: 'Montserrat', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+    .login-container {
+        min-height: 80vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    .login-card {
+        background: #fff;
+        border-radius: 18px;
+        box-shadow: 0 8px 32px rgba(0,64,128,0.10);
+        padding: 2.5rem 2.2rem 2rem 2.2rem;
+        max-width: 400px;
+        width: 100%;
+        margin: 2rem 0;
+        text-align: center;
+        position: relative;
+    }
+    .login-card h2 {
+        font-size: 2rem;
+        font-weight: 700;
+        color: #004080;
+        margin-bottom: 1.5rem;
+        letter-spacing: 0.5px;
+    }
+    .form-label {
+        font-weight: 600;
+        color: #004080;
+        margin-bottom: 0.3rem;
+        text-align: left;
+        display: block;
+    }
+    .form-control {
+        border-radius: 8px;
+        border: 1.5px solid #c7d2fe;
+        padding: 0.85rem 1rem;
+        font-size: 1.08rem;
+        margin-bottom: 1.2rem;
+        transition: border-color 0.2s;
+        font-family: 'Montserrat', sans-serif;
+    }
+    .form-control:focus {
+        border-color: #4f8cff;
+        outline: none;
+        box-shadow: 0 0 0 2px #a6e1fa44;
+    }
+    .btn-primary {
+        background: linear-gradient(90deg, #004080 60%, #0077b6 100%);
+        border: none;
+        border-radius: 8px;
+        padding: 0.85rem 2.2rem;
+        font-size: 1.1rem;
+        font-weight: 700;
+        color: #fff;
+        box-shadow: 0 4px 18px rgba(0,64,128,0.10);
+        transition: background 0.18s, transform 0.18s;
+        margin-top: 0.5rem;
+    }
+    .btn-primary:hover {
+        background: linear-gradient(90deg, #0077b6 60%, #004080 100%);
+        transform: translateY(-2px) scale(1.03);
+    }
+    .register-link {
+        display: block;
+        margin-top: 1.5rem;
+        font-size: 1.05rem;
+        color: #0077b6;
+        font-weight: 600;
+        text-decoration: none;
+        transition: color 0.18s;
+    }
+    .register-link:hover {
+        color: #004080;
+        text-decoration: underline;
+    }
+    .form-check-label {
+        font-size: 0.98rem;
+        color: #444;
+    }
+</style>
+<div class="login-container">
+    <div class="login-card">
+        <h2>Sign In to WealthManager</h2>
+        <form method="POST">
             {{ form.hidden_tag() }}
-            <label for="username">Username:</label>
-            {{ form.username(class_='form-control', id='username') }}
-            {% for error in form.username.errors %}
-                <div class="error">{{ error }}</div>
-            {% endfor %}
-
-            <label for="password">Password:</label>
-            {{ form.password(class_='form-control', id='password') }}
-            {% for error in form.password.errors %}
-                <div class="error">{{ error }}</div>
-            {% endfor %}
-
-            {{ form.submit(class_='btn btn-primary') }}
+            <div class="mb-3 text-start">
+                <label for="username" class="form-label">Username:</label>
+                {{ form.username(class_="form-control", id="username", placeholder="Enter your username") }}
+            </div>
+            <div class="mb-3 text-start">
+                <label for="password" class="form-label">Password:</label>
+                {{ form.password(class_="form-control", id="password", placeholder="Enter your password") }}
+            </div>
+            <button type="submit" class="btn btn-primary w-100">Login</button>
         </form>
-        <p>Don't have an account? <a href="{{ url_for('users.register') }}">Register here</a></p>
+        <a href="{{ url_for('users.register') }}" class="register-link">Don't have an account? <b>Register here</b></a>
     </div>
-</body>
-</html>
+</div>
+{% endblock %}
