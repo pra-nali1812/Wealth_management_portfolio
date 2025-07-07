@@ -12,7 +12,7 @@ import os
 load_dotenv()
 
 app = Flask(__name__)
-app.config.from_object(Config)
+app.config.from_object('config.DevelopmentConfig')
 init_app(app)
 # Init extensions
 db.init_app(app)
@@ -33,4 +33,4 @@ def home():
     return render_template('home.html')
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=False, host='0.0.0.0', port=5000)
